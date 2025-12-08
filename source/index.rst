@@ -9,7 +9,7 @@ The Asset-Importer-Lib Documentation
 =====================================
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
    :caption: General
    :name: sec-general
    
@@ -20,7 +20,7 @@ The Asset-Importer-Lib Documentation
    
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
    :caption: Using Assimp
    :name: sec-learn
 
@@ -28,14 +28,14 @@ The Asset-Importer-Lib Documentation
    usage/postprocessing
 
 .. toctree::
-    :maxdepth: 1
+    :maxdepth: 2
     :caption: Developer Guide
     :name: sec-developer
 
     developer/developer
 
 .. toctree::
-    :maxdepth: 1
+    :maxdepth: 2
     :caption: API-Reference
     :name: sec-api
 
