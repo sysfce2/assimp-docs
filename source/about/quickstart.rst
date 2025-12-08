@@ -110,7 +110,11 @@ to off during the cmake run. For example:
 
     cmake CMakeLists.txt -G "Ninja" -BUILD_SHARED_LIBS=OFF
 
-will generate a static library buid by Ninja.
+will generate a static library buid by Ninja. There are a couble of preset configurations available as well:
+- assimp_static: Will build a static assimp-lib
+- assimp_double_precision: Will build a assimp-lib with double precision support
+- assimp_with_tools: Will build the assimp-lib along with the command line tools 
+- assimp_all: Will build everything including tests and samples
 
 .. _ai_andorid_build:
 

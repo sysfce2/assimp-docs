@@ -164,7 +164,9 @@ custom implementations of IOStream and IOSystem. A shortened example might look 
         return new MyIOStream( ... );
       }
 
-      void Close( IOStream* pFile) { delete pFile; }
+      void Close( IOStream* pFile) { 
+	    delete pFile; 
+	  }
     };
 
 Now that your IO system is implemented, supply an instance of it to the Importer object by calling
@@ -194,8 +196,8 @@ The C interface also provides a way to override the file system. Control is not 
 surely enough for almost any purpose. The process is simple:
 
 
-* Include cfileio.h
-* Fill an aiFileIO structure with custom file system callbacks (they're self-explanatory as they work similarly to the CRT's fXXX functions)
+* Include **cfileio.h**
+* Fill an **aiFileIO** structure with custom file system callbacks (they're self-explanatory as they work similarly to the CRT's fXXX functions)
 * and pass it as a parameter to #aiImportFileEx
 
 .. _ai_logging:
@@ -206,7 +208,7 @@ Logging
 The Assimp-library provides an easy mechanism to log messages. For instance, if you want to check the state of your
 import and you just want to see, after which preprocessing step the import process was aborted you can take a look
 into the log.
-Per default, the Assimp-library provides a default log implementation, where you can log your user-specific message
+Per default, the Assimp-Library provides a default log implementation, where you can log your user-specific message
 by calling it a singleton with the requested logging type. To see how this works take a look at this:
 
 ::
@@ -380,17 +382,28 @@ Y base vector, <tt>(Z1, Z2, Z3)</tt> being the local Z base vector and <tt>(T1, 
 offset of the local origin (the translational part). 
 All matrices in the library use row-major storage order. That means that the matrix elements are
 stored row-by-row, i.e. they end up like this in memory: 
-<tt>[X1, Y1, Z1, T1, X2, Y2, Z2, T2, X3, Y3, Z3, T3, 0, 0, 0, 1]</tt>. 
+
+::
+
+	[X1, Y1, Z1, T1, 
+	 X2, Y2, Z2, T2, 
+	 X3, Y3, Z3, T3, 
+	 0, 0, 0, 1]
+
 
 Note that this is neither the OpenGL format nor the DirectX format, because both of them specify the
 matrix layout such that the translational part occupies three consecutive addresses in memory (so those
-matrices end with <tt>[..., T1, T2, T3, 1]</tt>), whereas the translation in an Assimp matrix is found at
-the offsets 3, 7 and 11 (spread across the matrix). You can transpose an Assimp matrix to end up with
-the format that OpenGL and DirectX mandate. To be very precise: The transposition has nothing
-to do with a left-handed or right-handed coordinate system but 'converts' between row-major and
-column-major storage formats.
+matrices end with:
 
-<b>11.24.09:</b> We changed the orientation of our quaternions to the most common convention to avoid confusion.
+::
+	[..., T1, T2, T3, 1]
+	
+where as the translation in an Assimp matrix is found at the offsets 3, 7 and 11 (spread across the matrix). 
+You can transpose an Assimp matrix to end up with the format that OpenGL and DirectX mandate. To be very precise: 
+The transposition has nothing to do with a left-handed or right-handed coordinate system but 'converts' between 
+row-major and column-major storage formats.
+
+**11.24.09:** We changed the orientation of our quaternions to the most common convention to avoid confusion.
 However, if you're a previous user of Assimp and you update the library to revisions beyond SVNREV 502,
 you have to adapt your animation loading code to match the new quaternion orientation.
 
@@ -441,7 +454,7 @@ following pseudocode:
 	  // continue for all child nodes
 	  for( all node.mChildren) {
 		CopyNodesWithMeshes( node.mChildren[a], parent, transform);
-          }
+      }
 	}
 	
 This function copies a node into the scene graph if it has children. If yes, a new scene object
@@ -470,10 +483,10 @@ or using the helper functions provided by **aiMesh**. You may also specify sever
 at Importer::ReadFile() to let Assimp calculate or recalculate additional data channels for you.
 
 At the moment, a single aiMesh may contain a set of triangles and polygons. A single vertex does always
-have a position. In addition, it may have one normal, one tangent, and bitangent, zero to **AI_MAX_NUMBER_OF_TEXTURECOORDS**
-(4 at the moment) texture coords and zero to AI_MAX_NUMBER_OF_COLOR_SETS (4) vertex colors. In addition,
-a mesh may or may not have a set of bones described by an array of **aiBone** structures. How to interpret
-the bone information is described later on.
+have a position. In addition, it may have one normal, one tangent, and bitangent, zero to 
+**AI_MAX_NUMBER_OF_TEXTURECOORDS** (4 at the moment) texture coords and zero to AI_MAX_NUMBER_OF_COLOR_SETS (4) 
+vertex colors. In addition, a mesh may or may not have a set of bones described by an array of **aiBone** structures. 
+How to interpret the bone information is described later on.
 
 .. _ai_material:
 
@@ -514,8 +527,8 @@ There are two cases:
    format such as DDS or PNG. The term "compressed" does not mean that the texture data must
    actually be compressed, however, the texture was found in the model file as if it was stored in a
    separate file on the hard disk. Appropriate decoders (such as libjpeg, libpng, D3DX, DevIL) are
-   required to load these textures.  aiTexture::mWidth specifies the size of the texture data in
-   bytes, aiTexture::pcData is a pointer to the raw image data and aiTexture::achFormatHint is
+   required to load these textures.  **aiTexture::mWidth** specifies the size of the texture data in
+   bytes, aiTexture::pcData is a pointer to the raw image data and **aiTexture::achFormatHint** is
    either zeroed or contains the most common file extension of the embedded texture's format. This
    value is only set if Assimp is able to determine the file format.
    
@@ -527,7 +540,7 @@ Material-System
 General Overview
 ################################
 
-All materials are stored in an array of **aiMaterial** inside the aiScene.
+All materials are stored in an array of **aiMaterial** inside the **aiScene**.
 
 Each aiMesh refers to one
 material by its index in the array. Due to the vastly diverging definitions and usages of material
@@ -541,8 +554,9 @@ presence of certain properties in a material and retrieve their values.
 Textures
 --------
 
-Textures are organized in stacks, each stack being evaluated independently. The final color value from a particular texture stack is used in the shading equation. 
-For example, the computed color value of the diffuse texture stack (aiTextureType_DIFFUSE) is multiplied with the amount of incoming diffuse light to obtain the 
+Textures are organized in stacks, each stack being evaluated independently. The final color value from a 
+particular texture stack is used in the shading equation. For example, the computed color value of the 
+diffuse texture stack (aiTextureType_DIFFUSE) is multiplied with the amount of incoming diffuse light to obtain the 
 final diffuse color of a pixel.
 
 .. list-table::
@@ -753,7 +767,7 @@ All material key constants start with 'AI_MATKEY' as a prefix.
 C++-API
 -------
 
-Retrieving a property from a material is done using various utility functions. For C++ it's simply calling aiMaterial::Get()
+Retrieving a property from a material is done using various utility functions. For C++ it's simply calling **aiMaterial::Get()**
 
 ::
 
@@ -778,7 +792,7 @@ Or for the diffuse color ('color' won't be modified if the property is not set)
 	aiColor3D color (0.f,0.f,0.f);
 	mat->Get(AI_MATKEY_COLOR_DIFFUSE,color);
 
-<b>Note:</b> Get() is actually a template with explicit specializations for aiColor3D, aiColor4D, aiString, float, int and some others.
+<b>Note:</b> Get() is actually a template with explicit specializations for **aiColor3D**, **aiColor4D**, **aiString**, **float**, **int** and some others.
 Make sure that the type of the second parameter matches the expected data type of the material property (no compile-time check yet!).
 Don't follow this advice if you wish to encounter very strange results.
 
@@ -816,8 +830,8 @@ Or for the diffuse color ('color' won't be modified if the property is not set)
 How to map UV channels to textures (MATKEY_UVWSRC)
 --------------------------------------------------
 
-The MATKEY_UVWSRC property is only present if the source format doesn't specify an explicit mapping from
-textures to UV channels. Many formats don't do this and assimp is not aware of a perfect rule either.
+The **MATKEY_UVWSRC** property is only present if the source format doesn't specify an explicit mapping from
+textures to UV channels. Many formats don't do this and Assimp is not aware of a perfect rule either.
 
 Your handling of UV channels needs to be flexible therefore. Our recommendation is to use logic like this
 to handle most cases properly:
@@ -1012,8 +1026,8 @@ This page discusses general performance issues related to **Assimp**.
 Profiling
 ---------
 
-Assimp has built-in support for <i>very</i> basic profiling and time measurement. To turn it on, set the <tt>GLOB_MEASURE_TIME</tt>
-configuration switch to <tt>true</tt> (nonzero). Results are dumped to the log file, so you need to set up
+Assimp has built-in support for very basic profiling and time measurement. To turn it on, set the <tt>GLOB_MEASURE_TIME</tt>
+configuration switch to **true** (nonzero). Results are dumped to the log file, so you need to set up
 an appropriate logger implementation with at least one output stream first (see the @:ref:`ai_logging` for the details.).
 
 Note that these measurements are based on a single run of the importer and each of the post-processing steps, so
@@ -1143,7 +1157,7 @@ This page lists some useful resources for **Assimp**. Note that, even though the
 we cannot guarantee the accuracy of third-party information. If in doubt, it's best to ask either on the
 mailing list or on our forums on SF.net.
 
- * **Assimp** comes with some sample applications, these can be found in the <i>./samples</i> folder. Don't forget to read the <i>README</i> file.
+ * **Assimp** comes with some sample applications, these can be found in the **./samples** folder. Don't forget to read the **readme.md** file.
  * `Assimp-GL-Demo <http://www.drivenbynostalgia.com/files/AssimpOpenGLDemo.rar>`_ - OpenGl animation sample using the library's animation import facilities.
  * `Assimp-Animation-Loader <http://nolimitsdesigns.com/game-design/open-asset-import-library-animation-loader/>`_ is another utility to
    simplify animation playback.

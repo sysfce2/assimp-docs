@@ -152,7 +152,7 @@ To use the XML-Parser you need to follow these steps:
 
 ::
 
-You can also iterate over all children nodes via an Iterator interface:
+You can also iterate over all children of your current node by using an Iterator:
 
 ::
 
