@@ -396,6 +396,7 @@ matrix layout such that the translational part occupies three consecutive addres
 matrices end with:
 
 ::
+
 	[..., T1, T2, T3, 1]
 	
 where as the translation in an Assimp matrix is found at the offsets 3, 7 and 11 (spread across the matrix). 
